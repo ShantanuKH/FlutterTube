@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_clone/features/auth/pages/login_page.dart';
 import 'package:youtube_clone/firebase_options.dart';
+import 'package:youtube_clone/home_page.dart';
 
 void main() async {
   // To connect the porject to the firebase
@@ -13,8 +15,6 @@ void main() async {
   runApp(ProviderScope(child: MyApp()));
 }
 
-
-
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
@@ -24,7 +24,18 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'FlutterTube',
-      home: LoginPage(),
+
+      // To check wheather we are signin or not we can use StreamBuilder
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return LoginPage();
+          } 
+          return HomePage(
+          );
+        },
+      ),
     );
   }
 }
