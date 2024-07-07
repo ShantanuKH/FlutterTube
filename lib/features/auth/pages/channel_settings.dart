@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_clone/cores/screens/error_page.dart';
 import 'package:youtube_clone/cores/screens/loader.dart';
+import 'package:youtube_clone/features/auth/channel/my_channel/repository/edit_fileds.dart';
+import 'package:youtube_clone/features/auth/channel/my_channel/wigdets/edit_setting_dialog.dart';
 import 'package:youtube_clone/features/auth/channel/my_channel/wigdets/setting_field_item.dart';
 import 'package:youtube_clone/features/auth/provider/user_provider.dart';
 
@@ -60,22 +62,54 @@ class _MyChannelSettingsState extends ConsumerState<MyChannelSettings> {
                         height: 15,
                       ),
                       SettingsItem(
-                          identifier: "Name",
-                          onPressed: () {},
-                          value:currentUser.displayName),
+                            identifier: "Name",
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => SettingsDialog(
+                                  identifier: "Edit Display Name",
+                                  onSave: (name) {
+                                    ref.watch(editSettingsProvider).editDisplayName(name);
+                                  },
+                                ),
+                              );
+                            },
+                            value: currentUser.displayName,
+                          ),
+
                       const SizedBox(
                         height: 15,
                       ),
                       SettingsItem(
                           identifier: "Handle",
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => SettingsDialog(
+                                  identifier: "Edit Username",
+                                  onSave: (username) {
+                                    ref.watch(editSettingsProvider).editusername(username);
+                                  },
+                                ),
+                              );
+                          },
                           value: currentUser.username),
                       const SizedBox(
                         height: 15,
                       ),
                       SettingsItem(
                           identifier: "Description",
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => SettingsDialog(
+                                  identifier: "Edit Description",
+                                  onSave: (description) {
+                                    ref.watch(editSettingsProvider).editDescription(description);
+                                  },
+                                ),
+                              );
+                          },
                           value: currentUser.description),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0, right: 8),
