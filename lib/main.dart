@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_clone/cores/screens/loader.dart';
 import 'package:youtube_clone/features/auth/pages/login_page.dart';
+import 'package:youtube_clone/features/auth/pages/my_channel_screen.dart';
 import 'package:youtube_clone/features/auth/pages/username_page.dart';
 import 'package:youtube_clone/firebase_options.dart';
 import 'package:youtube_clone/home_page.dart';
 
 void main() async {
-  // To connect the porject to the firebase
+  // To connect the project to Firebase
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -28,18 +29,18 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       title: 'FlutterTube',
 
-      // To check wheather we are signin or not we can use StreamBuilder
+      // To check whether we are signed in or not, we can use StreamBuilder
       home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return LoginPage();
+              return const LoginPage();
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Loader();
+              return const Loader();
             }
 
-            // After loading the data and after we have the we wil return the second stream builder
-            // To check wheather data is added to the databse or not
+            // After loading the data and after we have the user, we will return the second StreamBuilder
+            // To check whether data is added to the database or not
             return StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection("users")
@@ -50,13 +51,12 @@ class MyApp extends ConsumerWidget {
                 if (!snapshot.hasData || !snapshot.data!.exists) {
                   return UsernamePage(
                       displayName: user!.displayName!,
-                      profilePic: user!.photoURL!,
-                      email: user!.email!);
-                } else if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
-                  return Loader();
+                      profilePic: user.photoURL!,
+                      email: user.email!);
+                } else if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Loader();
                 }
-                return HomePage();
+                return  MyChannelScreen();
               },
             );
           }),

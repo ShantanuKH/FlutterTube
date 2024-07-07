@@ -4,14 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_clone/features/auth/models/user_model.dart';
 
-
 // Using the provider we will be able to handle the set
-final UserDataServiceProvider = Provider((ref) => UserDataService(
-    auth: FirebaseAuth.instance, 
+final UserDataServiceProvider = Provider(
+  (ref) => UserDataService(
+    auth: FirebaseAuth.instance,
     firestore: FirebaseFirestore.instance,
-    ),
-    
-    );
+  ),
+);
 
 // To add the user data to the firebase firestore
 class UserDataService {
@@ -50,5 +49,16 @@ class UserDataService {
         .collection("users")
         .doc(auth.currentUser!.uid)
         .set(user.toMap());
+  }
+
+// To fetch the data form the firestore
+
+  Future<UserModel>fetchCurrentUserData() async {
+    final currentUserMap =
+        await firestore.collection("users").doc(auth.currentUser!.uid).get();
+
+    // Now, We have to convert the currentUserMap into the usermodel
+    UserModel user = UserModel.fromMap(currentUserMap.data()!);
+    return user;
   }
 }
