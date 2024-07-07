@@ -4,8 +4,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_clone/cores/screens/loader.dart';
+import 'package:youtube_clone/features/auth/pages/channel_settings.dart';
 import 'package:youtube_clone/features/auth/pages/login_page.dart';
-import 'package:youtube_clone/features/auth/pages/my_channel_screen.dart';
+import 'package:youtube_clone/features/auth/channel/my_channel/pages/my_channel_screen.dart';
 import 'package:youtube_clone/features/auth/pages/username_page.dart';
 import 'package:youtube_clone/firebase_options.dart';
 import 'package:youtube_clone/home_page.dart';
@@ -56,7 +57,7 @@ class MyApp extends ConsumerWidget {
                 } else if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Loader();
                 }
-                return  MyChannelScreen();
+                return  MyChannelSettings();
               },
             );
           }),
