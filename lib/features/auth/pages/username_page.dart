@@ -1,19 +1,31 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:youtube_clone/cores/widgets/flat_button.dart';
+import 'package:youtube_clone/features/auth/repository/user_data_service.dart';
 
 final formkey = GlobalKey();
 
-class UsernamePage extends StatefulWidget {
-  const UsernamePage({super.key});
+class UsernamePage extends ConsumerStatefulWidget {
+  final String displayName;
+  final String profilePic;
+  final String email;
+
+  const UsernamePage({
+    required this.displayName,
+    required this.profilePic,
+    required this.email,
+  });
 
   @override
-  State<UsernamePage> createState() => _UsernamePageState();
+  ConsumerState<UsernamePage> createState() => _UsernamePageState();
 }
 
-class _UsernamePageState extends State<UsernamePage> {
+class _UsernamePageState extends ConsumerState<UsernamePage> {
   TextEditingController usernameController = TextEditingController();
   bool isValidate = true;
 
@@ -64,13 +76,16 @@ class _UsernamePageState extends State<UsernamePage> {
 
                   // It chekc automatically we dont need to chekc the submit button
                   autovalidateMode: AutovalidateMode.always,
-                  validator:(username){} ,
+                  validator: (username) {
+                    return isValidate ? null : "Username Already Exist";
+                  },
                   key: formkey,
                   controller: usernameController,
                   decoration: InputDecoration(
-                      suffixIcon: isValidate? Icon(Icons.verified_user_sharp) : Icon(Icons.cancel_presentation_sharp),
-                      suffixIconColor: isValidate ? Colors.green:
-                      Colors.red,
+                      suffixIcon: isValidate
+                          ? Icon(Icons.verified_user_sharp)
+                          : Icon(Icons.cancel_presentation_sharp),
+                      suffixIconColor: isValidate ? Colors.green : Colors.red,
                       hintText: "Enter username",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15),
@@ -93,8 +108,25 @@ class _UsernamePageState extends State<UsernamePage> {
                         vertical: 35, horizontal: 15),
                     child: FlatButton(
                         text: "Continue",
-                        onPressed: () {},
-                        colour:isValidate? Colors.green: Colors.green.shade100)),
+                        onPressed: () async {
+                          // Add Userdata inisde database
+                          isValidate
+                              ? await ref
+                                  .read(UserDataServiceProvider)
+                                  .adduserDataToFirestore(
+                                      displayName: widget.displayName,
+                                      username: usernameController.text,
+                                      email: widget.email,
+                                      profilePic: widget.profilePic,
+                                      subscriptions: [''],
+                                      videos: 0,
+                                      userId: "",
+                                      description: "",
+                                      type: "")
+                              : null;
+                        },
+                        colour:
+                            isValidate ? Colors.green : Colors.green.shade100)),
               ],
             )
           ],
