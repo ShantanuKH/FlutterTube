@@ -119,12 +119,13 @@ class _VideoDetailsPageState extends ConsumerState<VideoDetailsPage> {
                           color: Colors.green,
                           borderRadius: BorderRadius.circular(11)),
                       child: TextButton(
-                        onPressed: () {
+                        onPressed: ()async {
                           // Publish the thumbnail
                           String thumbnail =
-                              putFileInStorage(image, randomNumber, "image");
+                             await putFileInStorage(image, randomNumber, "image");
                           // Put the video inside the storage nad put urldata path and put inisde database
-                          String videoUrl = putFileInStorage(
+                          String videoUrl =
+                              await putFileInStorage(
                               widget.video, randomNumber, "video");
 
                           ref.watch(longVideoProvider).uuploadVideoToFirestore(
