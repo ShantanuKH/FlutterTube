@@ -58,7 +58,7 @@ class MyApp extends ConsumerWidget {
                 } else if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Loader();
                 }
-                return  UserChannelPage();
+                return  HomePage();
               },
             );
           }),

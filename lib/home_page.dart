@@ -4,11 +4,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_clone/cores/screens/error_page.dart';
 import 'package:youtube_clone/cores/screens/loader.dart';
 import 'package:youtube_clone/cores/widgets/image_button.dart';
+import 'package:youtube_clone/features/content/bottom_navigation.dart';
 import 'package:youtube_clone/features/auth/provider/user_provider.dart';
+import 'package:youtube_clone/features/upload/upload_bottom_sheet.dart';
+import 'package:youtube_clone/pages_list.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,17 +72,31 @@ class HomePage extends StatelessWidget {
                             child: CircleAvatar(
                               radius: 15,
                               backgroundColor: Colors.grey,
-                              backgroundImage:CachedNetworkImageProvider(currentUser.profilePic) ,
+                              backgroundImage: CachedNetworkImageProvider(
+                                  currentUser.profilePic),
                             ),
                           ),
                       error: (error, StackTrace) => const ErrorPage(),
                       loading: () => const Loader());
-                      
                 }),
               ],
             ),
+            Expanded(
+              child: pages[currentIndex],
+            )
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigation(
+        onPressed: (index) {
+          if (index != 2) {
+            currentIndex = index;
+            setState(() {});
+          } else {
+            showModalBottomSheet(
+                context: context, builder: (context) => CreateBottomSheet());
+          }
+        },
       ),
     );
   }
