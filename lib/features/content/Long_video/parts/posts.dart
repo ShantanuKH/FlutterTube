@@ -24,61 +24,72 @@ class Posts extends ConsumerWidget {
     // whenData will just return the data and will not tell loading and all stuff
     final user = userModel.whenData((user) => user);
 
-    return Container(
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Video()));
-        },
-        child: Column(
-          children: [
-            CachedNetworkImage(
-              imageUrl:
-                  "https://www.shutterstock.com/image-illustration/abstract-wave-technology-background-blue-260nw-2152448863.jpg",
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical:10.0, horizontal: 10),
+      child: Material(
+        elevation: 5,
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          padding: EdgeInsets.only(bottom:10 ),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Video(
+                    video: video,
+                  )));
+            },
+            child: Column(
+              children: [
+                CachedNetworkImage(
+                  imageUrl:
+                      "https://www.shutterstock.com/image-illustration/abstract-wave-technology-background-blue-260nw-2152448863.jpg",
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 5, left: 8.0),
+                  child: Row(
+                    
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.grey,
+                        backgroundImage:
+                            CachedNetworkImageProvider(user.value!.profilePic),
+                      ),
+                      SizedBox(
+                        width: 13,
+                      ),
+                      Text(
+                        video.title,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Spacer(),
+                      IconButton(
+                          onPressed: () {}, icon: Icon(Icons.more_vert_sharp))
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.sizeOf(context).width * 0.15),
+                  child: Row(
+                    children: [
+                      Text(
+                        "${user.value!.displayName}• ",
+                        style: TextStyle(color: Colors.blueGrey),
+                      ),
+                      Text(
+                          video.views == 0
+                              ? "No Views • "
+                              : " ${video.views.toString()} views • ",
+                          style: TextStyle(color: Colors.blueGrey)),
+                      Text("a moment ago", style: TextStyle(color: Colors.blueGrey))
+                    ],
+                  ),
+                )
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 5, left: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.grey,
-                    backgroundImage:
-                        CachedNetworkImageProvider(user.value!.profilePic),
-                  ),
-                  SizedBox(
-                    width: 13,
-                  ),
-                  Text(
-                    video.title,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Spacer(),
-                  IconButton(
-                      onPressed: () {}, icon: Icon(Icons.more_vert_sharp))
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.sizeOf(context).width * 0.15),
-              child: Row(
-                children: [
-                  Text(
-                    "${user.value!.displayName}• ",
-                    style: TextStyle(color: Colors.blueGrey),
-                  ),
-                  Text(
-                      video.views == 0
-                          ? "No Views • "
-                          : " ${video.views.toString()} views • ",
-                      style: TextStyle(color: Colors.blueGrey)),
-                  Text("a moment ago", style: TextStyle(color: Colors.blueGrey))
-                ],
-              ),
-            )
-          ],
+          ),
         ),
       ),
     );
