@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:youtube_clone/features/content/Long_video/long_video_screen.dart';
 
 List pages = [
-  Center(
-    child: Text("Home"),
-  ),
+  LongVideoScreen(),
    Center(
     child: Text("Shorts"),
   ),
