@@ -13,6 +13,7 @@ import 'package:youtube_clone/features/auth/models/user_model.dart';
 import 'package:youtube_clone/features/auth/provider/user_provider.dart';
 import 'package:youtube_clone/features/content/Long_video/parts/posts.dart';
 import 'package:youtube_clone/features/content/Long_video/widgets/video_externel_buttons.dart';
+import 'package:youtube_clone/features/content/commet/comment_sheet.dart';
 import 'package:youtube_clone/features/upload/long_video/videoModel.dart';
 
 class Video extends ConsumerStatefulWidget {
@@ -356,46 +357,60 @@ class _VideoState extends ConsumerState<Video> {
                       ],
                     ),
                   ],
-                  
                 ),
               ),
             ),
-                                // "where" is used to specify that this specific video that is playing should not display in the list
-       Expanded(
-         child: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                                .collection("videos")
-                                .where("videoId",
-                                    isNotEqualTo: widget.video.videoId)
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData || snapshot.data == null) {
-                                return ErrorPage();
-                              } else if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Loader();
-                              }
-         
-                              // Here, we have videomaop, we have to convert it into the videoModel and then convert it into list
-                              final videosMap = snapshot.data!.docs;
-                              final videos = videosMap
-                                  .map(
-                                    (video) => VideoModel.fromMap(video.data()),
-                                  )
-                                  .toList();
-         
-                              return ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const AlwaysScrollableScrollPhysics(),
-                                  itemCount: snapshot.data!.docs.length,
-                                  itemBuilder: (context, index) {
-                                    return Posts(
-                                      video: videos[index],
-                                    );
-                                  });
-                            }),
-       ),
-                 
+            // Comment Box
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                    context: context, builder: (context) => CommentSheet(video: widget.video,));
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 3, vertical: 5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.grey.shade200,
+                ),
+                height: 45,
+                width: MediaQuery.of(context).size.width,
+              ),
+            ),
+
+            // "where" is used to specify that this specific video that is playing should not display in the list
+            Expanded(
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection("videos")
+                      .where("videoId", isNotEqualTo: widget.video.videoId)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData || snapshot.data == null) {
+                      return ErrorPage();
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Loader();
+                    }
+
+                    // Here, we have videomaop, we have to convert it into the videoModel and then convert it into list
+                    final videosMap = snapshot.data!.docs;
+                    final videos = videosMap
+                        .map(
+                          (video) => VideoModel.fromMap(video.data()),
+                        )
+                        .toList();
+
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          return Posts(
+                            video: videos[index],
+                          );
+                        });
+                  }),
+            ),
           ],
         ),
       ),

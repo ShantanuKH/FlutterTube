@@ -16,7 +16,7 @@ class CommentRepository {
   });
 
 // To upload comments in the firestore
-  void uploadCommentToFireStore({
+  Future<void> uploadCommentToFireStore({
     required String commentText,
     required String videoId,
     required String profilePic,
