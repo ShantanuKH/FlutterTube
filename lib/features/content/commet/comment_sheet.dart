@@ -114,9 +114,13 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
                                     videoId: widget.video.videoId,
                                     profilePic: user.value!.profilePic,
                                     displayName: user.value!.displayName);
+                                    commentController.clear();
+                                    
                           },
+                          
                           child: Icon(Icons.send))),
                 ),
+                
               ),
             ],
           ),
