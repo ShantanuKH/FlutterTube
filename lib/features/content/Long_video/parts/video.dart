@@ -16,7 +16,6 @@ import 'package:youtube_clone/features/content/Long_video/widgets/video_externel
 import 'package:youtube_clone/features/upload/long_video/videoModel.dart';
 
 class Video extends ConsumerStatefulWidget {
-  
   final VideoModel video;
   const Video({
     Key? key,
@@ -28,7 +27,6 @@ class Video extends ConsumerStatefulWidget {
 }
 
 class _VideoState extends ConsumerState<Video> {
-  
   bool isShowIcons = false;
   bool isPlaying = false;
 
@@ -77,11 +75,9 @@ class _VideoState extends ConsumerState<Video> {
   @override
   @override
   Widget build(BuildContext context) {
-    
     final AsyncValue<UserModel> user =
         ref.watch(anyUserDataProvider(widget.video.userId));
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: Colors.black87,
         elevation: 0,
@@ -200,7 +196,8 @@ class _VideoState extends ConsumerState<Video> {
         ),
       ),
       body: SafeArea(
-        child: ListView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 12.0, top: 8),
@@ -306,65 +303,67 @@ class _VideoState extends ConsumerState<Video> {
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                child: Row(
+                child: Column(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 6,
-                      ),
-                      decoration: const BoxDecoration(
-                        color: softBlueGreyBackGround,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(25),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {},
-                            child: Icon(
-                              Icons.thumb_up,
-                              size: 15.5,
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 6,
+                          ),
+                          decoration: const BoxDecoration(
+                            color: softBlueGreyBackGround,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(25),
                             ),
                           ),
-                          const SizedBox(width: 20),
-                          const Icon(
-                            Icons.thumb_down,
-                            size: 15.5,
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {},
+                                child: Icon(
+                                  Icons.thumb_up,
+                                  size: 15.5,
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              const Icon(
+                                Icons.thumb_down,
+                                size: 15.5,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 9, right: 9),
+                          child: VideoExtraButton(
+                            text: "Share",
+                            iconData: Icons.share,
+                          ),
+                        ),
+                        const VideoExtraButton(
+                          text: "Remix",
+                          iconData: Icons.analytics_outlined,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 9, right: 9),
+                          child: VideoExtraButton(
+                            text: "Download",
+                            iconData: Icons.download,
+                          ),
+                        ),
+                      ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 9, right: 9),
-                      child: VideoExtraButton(
-                        text: "Share",
-                        iconData: Icons.share,
-                      ),
-                    ),
-                    const VideoExtraButton(
-                      text: "Remix",
-                      iconData: Icons.analytics_outlined,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 9, right: 9),
-                      child: VideoExtraButton(
-                        text: "Download",
-                        iconData: Icons.download,
-                      ),
-                    ),
-
                   ],
+                  
                 ),
-                
               ),
             ),
-            
-                    // "where" is used to specify that this specific video that is playing should not display in the list
-                    Expanded(
-                        child: StreamBuilder(
-                            stream: FirebaseFirestore.instance
+                                // "where" is used to specify that this specific video that is playing should not display in the list
+       Expanded(
+         child: StreamBuilder(
+            stream: FirebaseFirestore.instance
                                 .collection("videos")
                                 .where("videoId",
                                     isNotEqualTo: widget.video.videoId)
@@ -376,7 +375,7 @@ class _VideoState extends ConsumerState<Video> {
                                   ConnectionState.waiting) {
                                 return Loader();
                               }
-                        
+         
                               // Here, we have videomaop, we have to convert it into the videoModel and then convert it into list
                               final videosMap = snapshot.data!.docs;
                               final videos = videosMap
@@ -384,18 +383,19 @@ class _VideoState extends ConsumerState<Video> {
                                     (video) => VideoModel.fromMap(video.data()),
                                   )
                                   .toList();
-                        
+         
                               return ListView.builder(
-                                shrinkWrap: true,
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                itemCount: snapshot.data!.docs.length,
+                                  shrinkWrap: true,
+                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  itemCount: snapshot.data!.docs.length,
                                   itemBuilder: (context, index) {
-                                return Posts(
-                                  video: videos[index],
-                                );
-                              });
+                                    return Posts(
+                                      video: videos[index],
+                                    );
+                                  });
                             }),
        ),
+                 
           ],
         ),
       ),
