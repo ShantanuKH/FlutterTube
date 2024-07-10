@@ -3,7 +3,7 @@ class ShortVideoModel {
   final String caption;
   final String userId;
   final String shortVideo;
-  final String datePublished;
+  final DateTime datePublished;
   ShortVideoModel({
     required this.caption,
     required this.userId,
@@ -26,7 +26,7 @@ class ShortVideoModel {
       caption: map['caption'] as String,
       userId: map['userId'] as String,
       shortVideo: map['shortVideo'] as String,
-      datePublished: map['datePublished'] as String,
+      datePublished: map['datePublished'] as DateTime,
     );
   }
 

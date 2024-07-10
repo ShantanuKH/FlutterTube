@@ -13,6 +13,7 @@ import 'package:youtube_clone/features/upload/short_video/widgets/trim_slinder.d
 
 class ShortVideoScreen extends StatefulWidget {
   final File shortVideo;
+ 
   const ShortVideoScreen({
     Key? key,
     required this.shortVideo,
@@ -62,7 +63,10 @@ class _ShortVideoScreenState extends State<ShortVideoScreen> {
           // Export the video
           isExporting.value = false;
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ShortVideoDetailsPage()));
+              MaterialPageRoute(builder: (context) => ShortVideoDetailsPage(
+                video:widget.shortVideo   //  "video:widget.shortVideo" this parameter will return video with the page
+               
+              )));
         } else {
           // Show Error
           showErrorSnackBar("Failed, video cannot be exported", context);
