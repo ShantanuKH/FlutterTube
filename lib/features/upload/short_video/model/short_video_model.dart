@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ShortVideoModel {
   final String caption;
@@ -10,14 +11,13 @@ class ShortVideoModel {
     required this.shortVideo,
     required this.datePublished,
   });
-  
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'caption': caption,
       'userId': userId,
       'shortVideo': shortVideo,
-      'datePublished': datePublished,
+      'datePublished': datePublished.millisecondsSinceEpoch,
     };
   }
 
@@ -26,9 +26,12 @@ class ShortVideoModel {
       caption: map['caption'] as String,
       userId: map['userId'] as String,
       shortVideo: map['shortVideo'] as String,
-      datePublished: map['datePublished'] as DateTime,
+     
+      datePublished: map['datePublished'] is Timestamp 
+      ? (map["datePublished"]as Timestamp).toDate()
+      : DateTime.fromMillisecondsSinceEpoch(
+        map["datePublished"] as int,
+      ),
     );
   }
-
- 
 }
