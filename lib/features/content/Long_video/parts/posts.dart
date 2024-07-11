@@ -1,5 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_clone/features/auth/models/user_model.dart';
@@ -25,29 +25,33 @@ class Posts extends ConsumerWidget {
     final user = userModel.whenData((user) => user);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical:10.0, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
       child: Material(
         elevation: 5,
         borderRadius: BorderRadius.circular(10),
         child: Container(
-          padding: EdgeInsets.only(bottom:10 ),
+          padding: EdgeInsets.only(bottom: 10),
           child: GestureDetector(
-            onTap: () {
+            onTap: () async {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Video(
-                    video: video,
-                  )));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Video(
+                            video: video,
+                          )));
+              await FirebaseFirestore.instance
+                  .collection("videos")
+                  .doc(video.videoId)
+                  .update({"views": FieldValue.increment(1)});
             },
             child: Column(
               children: [
                 CachedNetworkImage(
-                  imageUrl:
-                      "https://www.shutterstock.com/image-illustration/abstract-wave-technology-background-blue-260nw-2152448863.jpg",
+                  imageUrl: "${video.thumbnail}",
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 5, left: 8.0),
                   child: Row(
-                    
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       CircleAvatar(
@@ -83,7 +87,8 @@ class Posts extends ConsumerWidget {
                               ? "No Views • "
                               : " ${video.views.toString()} views • ",
                           style: TextStyle(color: Colors.blueGrey)),
-                      Text("a moment ago", style: TextStyle(color: Colors.blueGrey))
+                      Text("a moment ago",
+                          style: TextStyle(color: Colors.blueGrey))
                     ],
                   ),
                 )
