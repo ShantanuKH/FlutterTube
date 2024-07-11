@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_clone/cores/screens/error_page.dart';
 import 'package:youtube_clone/cores/screens/loader.dart';
-import 'package:youtube_clone/features/auth/channel/my_channel/repository/edit_fileds.dart';
-import 'package:youtube_clone/features/auth/channel/my_channel/wigdets/edit_setting_dialog.dart';
-import 'package:youtube_clone/features/auth/channel/my_channel/wigdets/setting_field_item.dart';
+import 'package:youtube_clone/features/channel/my_channel/repository/edit_fileds.dart';
+import 'package:youtube_clone/features/channel/my_channel/wigdets/edit_setting_dialog.dart';
+import 'package:youtube_clone/features/channel/my_channel/wigdets/setting_field_item.dart';
 import 'package:youtube_clone/features/auth/provider/user_provider.dart';
 
 class MyChannelSettings extends ConsumerStatefulWidget {
