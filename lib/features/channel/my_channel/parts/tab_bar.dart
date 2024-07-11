@@ -6,16 +6,16 @@ class CustomTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: const EdgeInsets.only(top: 15.0),
+      padding: EdgeInsets.only(top: 10.0,),
       child: TabBar(
         isScrollable: true,
-        labelStyle: const TextStyle(
+        labelStyle: TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.w500,
         ),
         indicatorSize: TabBarIndicatorSize.label,
-        indicatorPadding: const EdgeInsets.only(top: 13),
-        tabs: const [
+        indicatorPadding: EdgeInsets.only(top: 13),
+        tabs: [
           Text("Home"),
           Text("Videos"),
           Text("Shorts"),

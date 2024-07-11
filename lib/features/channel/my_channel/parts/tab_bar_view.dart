@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:youtube_clone/features/channel/my_channel/pages/home_channel_page/home_channel_page.dart';
 
 class TabPages extends StatelessWidget {
   const TabPages({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Expanded(
+    return const Flexible(
       child: TabBarView(children: [
-        Center(
-          child: Text("Home"),
-        ),
+      HomeChannelPage(),
         Center(
           child: Text("Videos"),
         ),
