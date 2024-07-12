@@ -76,7 +76,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               width: 2,
                               margin: EdgeInsets.only(right: 2),
                               decoration: BoxDecoration(
-                                  color: Colors.grey.shade200,
+                                  color: const Color.fromARGB(255, 233, 232, 232),
                                   borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(30),
                                       bottomRight: Radius.circular(30))),
@@ -84,9 +84,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           hintText: "Search Youtube... ",
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.blueGrey,
+                                color: Colors.grey,
                               ),
-                              borderRadius: BorderRadius.circular(30))),
+                              borderRadius: BorderRadius.circular(30)),
+                              filled: true,
+                              fillColor: Color.fromARGB(255, 248, 248, 248)
+                              )
+                              ,
                     ),
                   ),
                 ],

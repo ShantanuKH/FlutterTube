@@ -13,7 +13,11 @@ import 'package:youtube_clone/features/auth/models/user_model.dart';
 import 'package:youtube_clone/features/auth/provider/user_provider.dart';
 import 'package:youtube_clone/features/content/Long_video/parts/posts.dart';
 import 'package:youtube_clone/features/content/Long_video/widgets/video_externel_buttons.dart';
+import 'package:youtube_clone/features/content/Long_video/widgets/video_first_comment.dart';
 import 'package:youtube_clone/features/content/commet/comment_sheet.dart';
+import 'package:youtube_clone/features/content/commet/provider/comment_provider.dart';
+import 'package:youtube_clone/features/upload/comments/comment_model.dart';
+import 'package:youtube_clone/features/upload/comments/comment_repository.dart';
 import 'package:youtube_clone/features/upload/long_video/videoModel.dart';
 
 class Video extends ConsumerStatefulWidget {
@@ -364,7 +368,10 @@ class _VideoState extends ConsumerState<Video> {
             GestureDetector(
               onTap: () {
                 showModalBottomSheet(
-                    context: context, builder: (context) => CommentSheet(video: widget.video,));
+                    context: context,
+                    builder: (context) => CommentSheet(
+                          video: widget.video,
+                        ));
               },
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 3, vertical: 5),
@@ -374,6 +381,21 @@ class _VideoState extends ConsumerState<Video> {
                 ),
                 height: 45,
                 width: MediaQuery.of(context).size.width,
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    final AsyncValue<List<CommentModel>> comments = ref.watch(
+                      commentsProvider(widget.video.videoId),
+                    );
+
+                    if (comments.value!.isEmpty) {
+                      return const SizedBox();
+                    }
+                    return VideoFirstComment(
+                      comments: comments.value!,
+                      user: user.value!,
+                    );
+                  },
+                ),
               ),
             ),
 
