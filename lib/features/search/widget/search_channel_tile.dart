@@ -1,12 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:youtube_clone/cores/widgets/flat_button.dart';
 import 'package:youtube_clone/features/channel/my_channel/pages/user_channel/pages/user_channel_page.dart';
 import 'package:youtube_clone/features/auth/models/user_model.dart';
+import 'package:youtube_clone/features/channel/subscribe_repository.dart';
 
-class SearchChannelTile extends StatelessWidget {
+class SearchChannelTile extends ConsumerWidget {
   final UserModel user;
   const SearchChannelTile({
     Key? key,
@@ -14,7 +17,7 @@ class SearchChannelTile extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10),
       child: GestureDetector(
@@ -80,7 +83,16 @@ class SearchChannelTile extends StatelessWidget {
               SizedBox(
                 height: 40,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async{
+                    await ref
+                              .watch(subscribeChannelProvider)
+                              .subscribeChannel(
+                                userId: user.userId,
+                                currentUserId:
+                                    FirebaseAuth.instance.currentUser!.uid,
+                                subscriptions: user.subscriptions,
+                              );
+                  },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
