@@ -3,8 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:youtube_clone/cores/widgets/flat_button.dart';
 import 'package:youtube_clone/features/channel/my_channel/pages/user_channel/pages/user_channel_page.dart';
 import 'package:youtube_clone/features/auth/models/user_model.dart';
 import 'package:youtube_clone/features/channel/subscribe_repository.dart';

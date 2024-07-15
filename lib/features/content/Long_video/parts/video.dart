@@ -19,7 +19,6 @@ import 'package:youtube_clone/features/content/Long_video/widgets/video_first_co
 import 'package:youtube_clone/features/content/commet/comment_sheet.dart';
 import 'package:youtube_clone/features/content/commet/provider/comment_provider.dart';
 import 'package:youtube_clone/features/upload/comments/comment_model.dart';
-import 'package:youtube_clone/features/upload/comments/comment_repository.dart';
 import 'package:youtube_clone/features/upload/long_video/videoModel.dart';
 import 'package:youtube_clone/features/upload/long_video/video_repository.dart';
 
