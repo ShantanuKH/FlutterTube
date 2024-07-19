@@ -1,4 +1,4 @@
-# YouTube Clone App
+# FlutterTube
 This YouTube clone app is built using Flutter and Dart. It replicates key features of YouTube, providing a platform for users to view, upload, and comment on videos. The app leverages Firebase for authentication, storage, and real-time data updates.
 
 ### Features
