@@ -43,3 +43,17 @@ Default TabBarView: Implements tab-based navigation for different sections of th
   - StreamBuilder for Real-Time Updates: Use StreamBuilder to listen to Firestore snapshots and update the UI in real-time.
   - Distinct Display of First Comment: Highlight the first comment by displaying it separately at the top.
   - Real-Time Comment Posting: Implement a comment form allowing users to post comments, updating Firestore and the UI in real-time.
+ 
+ 
+## Author
+
+   ### Shantanu Khadse
+
+   For any query, contribution, You can contact here,
+  
+  GitHub: [ShantanuKH](https://github.com/ShantanuKH)
+  
+  Email: shantanukhadse784@gmail.com  
+  
+  LinkedIn: [shantanukhadse](https://www.linkedin.com/in/shantanu-khadse-a62585230/)
+
